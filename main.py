@@ -1,10 +1,7 @@
-from colonia import Colonia
-from bacteria import Bacteria
+import grilla
 
-def iniciar(self):
-    Colonia.agregar_bacteria(self)
-    instancia = Colonia()
-    instancia.alimentar()
+def iniciar():
+    grilla.iniciar()
 
 if __name__ == "__main__":
     iniciar()
