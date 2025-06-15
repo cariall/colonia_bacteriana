@@ -1,24 +1,22 @@
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.patches import Patch
+import random
+
+ANCHO_GRILLA = 10
+ALTO_GRILLA = 10
 
 # Crear una grilla 10 x10
-grilla = np.zeros((10, 10))
+grilla = np.zeros((ANCHO_GRILLA, ALTO_GRILLA))
 
 # Definimos posiciones de bacterias activas (1) , muertas (2) , resistentes
 # (3) , biofilm (4)
-grilla[2, 3] = 1
-grilla[2, 4] = 1
-grilla[3, 3] = 1
-grilla[3, 4] = 3 # resistente
-grilla[5, 5] = 4 # biofilm
-grilla[5, 6] = 4
-grilla[6, 5] = 4
-grilla[6, 6] = 4
-grilla[7, 2] = 2 # muerta
-grilla[1, 8] = 1
-grilla[2, 8] = 3
-
+interactores = [0, 0, 0, 4, 1, 1, 4, 3, 1, 3]
+for i in range(ANCHO_GRILLA):
+    for j in range(ALTO_GRILLA):
+        item = random.choice(interactores)
+        if item != 0:
+            grilla[i, j] = item 
 # Crear un mapa de colores con 5 categor ´ıas (0 = vac´ıo)
 cmap = plt.cm.get_cmap('Set1',5)
 
