@@ -2,16 +2,17 @@ import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.patches import Patch
 import random
+from matplotlib.animation import FuncAnimation
 
 ANCHO_GRILLA = 10
 ALTO_GRILLA = 10
 
 # Crear una grilla 10 x10
 grilla = np.zeros((ANCHO_GRILLA, ALTO_GRILLA))
-
+interactores = [0, 0, 0, 4, 1, 1, 4, 3, 1, 3]
 # Definimos posiciones de bacterias activas (1) , muertas (2) , resistentes
 # (3) , biofilm (4)
-interactores = [0, 0, 0, 4, 1, 1, 4, 3, 1, 3]
+
 for i in range(ANCHO_GRILLA):
     for j in range(ALTO_GRILLA):
         item = random.choice(interactores)
@@ -47,6 +48,17 @@ for i in range(10):
         if val > 0:
             ax.text(j, i, int(val), va='center', ha='center', color ='white')
 
+
+def actualizar_datos(frame):
+    for i in range(ANCHO_GRILLA):
+        for j in range(ALTO_GRILLA):
+            item = random.choice(interactores)
+            if item != 0:
+                grilla[i, j] = item 
+    cax.set_data(grilla)
+    return [cax]
+
 plt.title("Grilla bacteriana (10 x10)")
 plt.tight_layout()
+anim = FuncAnimation(fig, actualizar_datos, blit=False, interval=500, save_count=100)
 plt.show()
