@@ -19,7 +19,7 @@ def iniciar():
             item = random.choice(interactores)
             if item != 0:
                 grilla[i, j] = item 
-    # Crear un mapa de colores con 5 categor ´ıas (0 = vac´ıo)
+    # Crear un mapa de colores con 5 categorías (0 = vacío)
     cmap = plt.cm.get_cmap('Set1',5)
 
     fig, ax = plt.subplots(figsize=(6, 6))
@@ -35,23 +35,24 @@ def iniciar():
 
     ax.legend(handles=legend_elements, loc ='upper right', bbox_to_anchor=(1.45, 1) )
 
-    # Configuraci ´on de la grilla
+    # Configuración de la grilla
     ax.set_xticks(np.arange(0, 10, 1))
     ax.set_yticks(np.arange(0, 10, 1))
     ax.set_xticklabels([])
     ax.set_yticklabels([])
     ax.grid(color='gray', linestyle='-', linewidth=0.5)
 
-    # Mostrar valores en cada celda
-    for i in range(10):
-        for j in range(10) :
+    textos = []
+    for i in range(ANCHO_GRILLA):
+        fila = []
+        for j in range(ALTO_GRILLA):
             val = grilla[i, j]
-            if val > 0:
-                ax.text(j, i, int(val), va='center', ha='center', color ='white')
+            t = ax.text(j, i, int(val) if val > 0 else '', va='center', ha='center', color='white')
+            fila.append(t)
+        textos.append(fila)
 
-
-    sim = Simulador(grilla, cax)
+    sim = Simulador(grilla, cax, textos)
     plt.title("Grilla bacteriana (10 x10)")
     plt.tight_layout()
-    anim = FuncAnimation(fig, sim.run, blit=False, interval=500, save_count=100, frames=5, repeat=False)
+    anim = FuncAnimation(fig, sim.run, blit=False, interval=2000, save_count=100, frames=4, repeat=False)
     plt.show()
