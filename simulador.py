@@ -17,7 +17,7 @@ class Simulador():
         
         for i in range(len(self.__grilla)):
             for j in range(len(self.__grilla[i])):
-                item = random.choice(interactores)
+                item = random.choice(interactores) 
 
                 if item != 0:  
                     self.__grilla[i][j] = item 
@@ -31,7 +31,7 @@ class Simulador():
 
     def run(self, frame):
         # en paso pediremos el estados de la colonia para poder actualizar la grilla
-        lista_bacterias = self.__colonia.paso()   
+        lista_bacterias = self.__colonia.paso(self.__grilla)   
         
         # Recorremos la lista de bacterias y actualizamos la información
         for bacteria in lista_bacterias:

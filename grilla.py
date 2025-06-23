@@ -54,5 +54,6 @@ def iniciar():
     sim = Simulador(grilla, cax, textos)
     plt.title("Grilla bacteriana (10 x10)")
     plt.tight_layout()
+    sim.inicializar_bacterias()
     anim = FuncAnimation(fig, sim.run, blit=False, interval=2000, save_count=100, frames=4, repeat=False)
     plt.show()

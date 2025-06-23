@@ -35,6 +35,10 @@ class Bacteria():
     
     def get_estado(self):
         return self.__estado
+    
+    def set_estado(self, nuevo_estado):
+        self.__estado = nuevo_estado
+        return self.__estado
 
     def obtener_datos(self):
         cadena = (f"id: {self.__id}, raza: {self.__raza}, energía: {self.__energia}, resistencia: {self.__resistente}, estado: {self.__estado} ")
