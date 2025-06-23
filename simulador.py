@@ -13,17 +13,22 @@ class Simulador():
         self.__colonia= Colonia()
 
     def inicializar_bacterias(self):
-        interactores = [0, 0, 0, 4, 1, 1, 2, 3, 1, 3]
+        interactores = [0, 0, 4, 1, 4, 1, 2, 3, 1, 3]
         
         for i in range(len(self.__grilla)):
             for j in range(len(self.__grilla[i])):
                 item = random.choice(interactores) 
+                
+                if item == 4:
+                    self.__grilla[i][j] = item
+                    self.__textos[i][j].set_text(str(item) if item == 4 else '')
 
-                if item != 0:  
+                if item != 0 and item != 4:  
                     self.__grilla[i][j] = item 
                     self.__textos[i][j].set_text(str(item) if item > 0 else '')
-                self.__colonia.agregar_bacteria((i, j), item)
+                    self.__colonia.agregar_bacteria((i, j), item) #agrega a lista de bacterias
 
+                print(f"en {i, j} hay número {item}")
         self.__generar_csv()
         self.__estados_grilla.append(self.__grilla.copy()) 
         self.__cax.set_data(self.__grilla)

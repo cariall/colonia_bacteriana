@@ -6,12 +6,10 @@ class Bacteria():
         self.__resistente = resistente
         self.__estado = estado       
     
-    def alimentar(self, numero):
-        if self.__energia > 15:
-            print("Bacteria lista para reproducción")
-        else: 
-            print("Bacteria absorbiendo nutrientes")
-
+    def alimentar(self, cantidad):
+        self.__energia += cantidad
+        return self.__energia
+        
     def dividirse():
         pass
     
