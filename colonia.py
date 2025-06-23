@@ -1,24 +1,44 @@
+import random
 from bacteria import Bacteria
 
 class Colonia():
-    def __init__(self, bacterias):
-        self.bacterias = bacterias
+    def __init__(self):
+        self.__lista_bacterias = []
         #self.__ambiente = Ambiente()
+        self.__biofilm = []
 
-    def agregar_bacteria(self):
-        bacteria1 = Bacteria("X2M4AF", "Escherichia coli K-12", 87, True, "activa")
-        bacteria2 = Bacteria("P3N9WQ", "Bacillus subtilis 168", 42, False, "latente")
-        bacteria3 = Bacteria("Z8L1KD", "Staphylococcus aureus USA300", 95, True, "activa")
-        self.bacterias = [bacteria1, bacteria2, bacteria3]
-        return self.bacterias
+    def agregar_bacteria(self, coordenadas, item):
+        resistencia = 3 #porque el número 3 significa resistente
+        raza = ["Curt", "Mop", "Cray", "Hunt", "Hert"]
+        energia = [10, 20, 40, 60, 80, 100]
+        raza_elegida = random.choice(raza)
+        nivel_energia = random.choice(energia)
+        resistencia_elegida = True
 
-    def paso():
+        if item != resistencia:
+            resistencia_elegida = False
+            
+        if item == 2:
+            nivel_energia = 0
+        
+        bacteria = Bacteria(coordenadas, raza_elegida, nivel_energia, resistencia_elegida, item)
+        print(bacteria.obtener_datos())
+        self.__lista_bacterias.append(bacteria)
+
+    def paso(self):
+        bacterias_antiguas = self.__lista_bacterias
+        
         print("Paso 1: 20 bacterias activas colonizan aleatoriamente la placa. Todas comienzan con energía = 50. No hay divisiones ni muertes.")
         print("Paso 2: 18 bacterias mueren al ingresar a zona con antibiótico. 2 mueren por falta de nutrientes")
         print("Paso 3: 3 bacterias mueren al ingresar a zona con antibiótico. Una muta y se vuelve resistente")
         print("Paso 4: 5 nuevas mutaciones; 3 efectivas. 20 divisiones. Empieza la escasez de nutrientes")
         print("Paso 5: 6 muertes por inanición. La zona central es dominada por bacterias resistentes.")
-
+        
+        # Implementamos logica para actualizar un paso en la colonia
+        # donde cada bacteria tendrá un movimiento aleatorio y dependiendo de lo que 
+        # encuentre, podrá morir, mutar o dividirse, comer biofilm.
+        return bacterias_antiguas
+        
     def reporte_estado():
         pass
 
