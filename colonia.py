@@ -38,12 +38,11 @@ class Colonia():
             energia_actual = bacteria.get_energia()
 
             if bacteria.get_estado() == 1:
-                grilla[x][y] = 1
+                print(f"bacteria en {x, y} es {bacteria.get_estado()}")
 
             if bacteria.get_estado() == 2:
                 grilla[x][y] = 2
 
-            grilla[x][y] = bacteria.get_estado()
             # print(f"coordenadas bacteria: {x, y}")     
             # print(f"estado bacteria: {bacteria.get_estado()}") 
             
@@ -63,6 +62,7 @@ class Colonia():
                     nueva_bacteria_muerta= bacteria.set_estado(2)
                     print(f"bacteria sin energía pasa a estar muerta {nueva_bacteria_muerta}")
 
+            grilla[x][y] = bacteria.get_estado() #Actualiza la grilla
         print("--------------------------Paso siguiente--------------------------")
         # print("Paso 1: 20 bacterias activas colonizan aleatoriamente la placa. Todas comienzan con energía = 50. No hay divisiones ni muertes.")
         # print("Paso 2: 18 bacterias mueren al ingresar a zona con antibiótico. 2 mueren por falta de nutrientes")
