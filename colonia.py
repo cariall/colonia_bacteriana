@@ -28,14 +28,24 @@ class Colonia():
     def paso(self, grilla):
         print(f"bacterias: {len(self.__lista_bacterias)}")  
         bacterias_antiguas = self.__lista_bacterias
+        energia_mitosis = 50
 
         for bacteria in bacterias_antiguas:
-            nuevos_estados = [1, 2, 3]
-            nuevo_estado = random.choice(nuevos_estados)
-            bacteria.set_estado(nuevo_estado) 
+            # nuevos_estados = [1, 2, 3]
+            # nuevo_estado = random.choice(nuevos_estados)
+            # bacteria.set_estado(nuevo_estado) 
             x,y  = bacteria.get_id()
-            print(f"coordenadas bacteria: {x, y}")     
-            print(f"estado bacteria: {bacteria.get_estado()}") 
+            energia_actual = bacteria.get_energia()
+
+            if bacteria.get_estado() == 1:
+                grilla[x][y] = 1
+
+            if bacteria.get_estado() == 2:
+                grilla[x][y] = 2
+
+            grilla[x][y] = bacteria.get_estado()
+            # print(f"coordenadas bacteria: {x, y}")     
+            # print(f"estado bacteria: {bacteria.get_estado()}") 
             
             vecinos = [(x-1, y), (x+1, y), (x, y+1), (x, y-1)]
             for nx, ny in vecinos:
@@ -44,13 +54,32 @@ class Colonia():
                         print(f"Bacteria detecta en {(x, y)} biofilm en {(nx, ny)}")
                         bacteria.alimentar(15)
                         print(f"energía actual bacteria: {bacteria.get_energia()}")
-        
-        print("Paso 1: 20 bacterias activas colonizan aleatoriamente la placa. Todas comienzan con energía = 50. No hay divisiones ni muertes.")
-        print("Paso 2: 18 bacterias mueren al ingresar a zona con antibiótico. 2 mueren por falta de nutrientes")
-        print("Paso 3: 3 bacterias mueren al ingresar a zona con antibiótico. Una muta y se vuelve resistente")
-        print("Paso 4: 5 nuevas mutaciones; 3 efectivas. 20 divisiones. Empieza la escasez de nutrientes")
-        print("Paso 5: 6 muertes por inanición. La zona central es dominada por bacterias resistentes.")
-        
+                        if energia_actual >= energia_mitosis:
+                            bacteria.dividirse()
+            else:
+                energia_sin_comer = bacteria.set_energia(energia_actual - 10)
+                print(f"energía después de no consumir nutrientes {energia_sin_comer}")
+                if energia_actual == 0:
+                    nueva_bacteria_muerta= bacteria.set_estado(2)
+                    print(f"bacteria sin energía pasa a estar muerta {nueva_bacteria_muerta}")
+
+        print("--------------------------Paso siguiente--------------------------")
+        # print("Paso 1: 20 bacterias activas colonizan aleatoriamente la placa. Todas comienzan con energía = 50. No hay divisiones ni muertes.")
+        # print("Paso 2: 18 bacterias mueren al ingresar a zona con antibiótico. 2 mueren por falta de nutrientes")
+        # print("Paso 3: 3 bacterias mueren al ingresar a zona con antibiótico. Una muta y se vuelve resistente")
+        # print("Paso 4: 5 nuevas mutaciones; 3 efectivas. 20 divisiones. Empieza la escasez de nutrientes")
+        # print("Paso 5: 6 muertes por inanición. La zona central es dominada por bacterias resistentes.")
+        print("------------------------------------------------------------------")
+
+        print("Grilla actual")
+        for fila in grilla:
+            print(fila)
+
+        print(f"coordenadas bacteria: {x, y}")     
+        print(f"estado bacteria: {bacteria.get_estado()}")
+
+        if grilla[x][y] != bacteria.get_estado():
+            print(f"¡Desincronización! En ({x},{y}) grilla={grilla[x][y]}, bacteria={bacteria.get_estado()}")
         # Implementamos logica para actualizar un paso en la colonia
         # donde cada bacteria tendrá un mo vimiento aleatorio y dependiendo de lo que 
         # encuentre, podrá morir, mutar o dividirse, comer biofilm.

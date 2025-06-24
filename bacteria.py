@@ -10,7 +10,7 @@ class Bacteria():
         self.__energia += cantidad
         return self.__energia
         
-    def dividirse():
+    def dividirse(self):
         pass
     
     def mutar():
@@ -27,6 +27,12 @@ class Bacteria():
     
     def get_energia(self):
         return self.__energia
+    
+    def set_energia(self, cantidad):
+        self.__energia = cantidad
+        if self.__energia < 1:
+            self.__energia = 0
+        return self.__energia 
     
     def get_resistente(self):
         return self.__resistente

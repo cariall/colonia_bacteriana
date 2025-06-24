@@ -61,7 +61,7 @@ class Simulador():
                 
         self.__generar_csv()
         self.__estados_grilla.append(self.__grilla.copy()) 
-        self.__cax.set_data(self.__grilla)
+        self.__cax.set_data(self.__grilla.copy())
         return [self.__cax] + [t for fila in self.__textos for t in fila]
             
     def __generar_csv(self):
