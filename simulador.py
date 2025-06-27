@@ -29,7 +29,7 @@ class Simulador():
                     self.__colonia.agregar_bacteria((i, j), item) #agrega a lista de bacterias
 
                 print(f"en {i, j} hay número {item}")
-        self.__generar_csv()
+        self.__exportar_csv()
         self.__estados_grilla.append(self.__grilla.copy()) 
         self.__cax.set_data(self.__grilla)
         return [self.__cax] + [t for fila in self.__textos for t in fila]
@@ -59,12 +59,12 @@ class Simulador():
                 self.__grilla[x][y] = 2
                 self.__textos[x][y].set_text('2')
                 
-        self.__generar_csv()
+        self.__exportar_csv()
         self.__estados_grilla.append(self.__grilla.copy()) 
         self.__cax.set_data(self.__grilla.copy())
         return [self.__cax] + [t for fila in self.__textos for t in fila]
             
-    def __generar_csv(self):
+    def __exportar_csv(self):
         estados = [["bacterias vivas", "bacterias resistentes", "bacterias muertas", "biofilm"]]
         for grilla in self.__estados_grilla:
             bacterias_muertas = 0
