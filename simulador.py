@@ -13,7 +13,7 @@ class Simulador():
         self.__colonia= Colonia()
 
     def inicializar_bacterias(self):
-        interactores = [0, 0, 4, 1, 4, 1, 2, 3, 1, 3]
+        interactores = [0, 0, 4, 1, 0, 0, 0, 0, 0, 3]
         
         for i in range(len(self.__grilla)):
             for j in range(len(self.__grilla[i])):

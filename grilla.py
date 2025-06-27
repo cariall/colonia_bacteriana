@@ -9,7 +9,7 @@ ANCHO_GRILLA = 10
 ALTO_GRILLA = 10
 # Crear una grilla 10 x10
 grilla = np.zeros((ANCHO_GRILLA, ALTO_GRILLA))
-interactores = [0, 0, 0, 4, 1, 1, 4, 3, 1, 3]
+interactores = [0, 0, 0, 0, 1, 0, 4, 0, 0, 3]
 # Definimos posiciones de bacterias activas (1) , muertas (2) , resistentes
 # (3) , biofilm (4)
 
@@ -55,5 +55,5 @@ def iniciar():
     plt.title("Grilla bacteriana (10 x10)")
     plt.tight_layout()
     sim.inicializar_bacterias()
-    anim = FuncAnimation(fig, sim.run, blit=False, interval=2000, save_count=100, frames=4, repeat=False)
+    anim = FuncAnimation(fig, sim.run, blit=False, interval=2000, save_count=100, frames=1, repeat=False)
     plt.show()

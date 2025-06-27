@@ -1,6 +1,5 @@
 import random
 from bacteria import Bacteria
-
 class Colonia():
     def __init__(self):
         self.__lista_bacterias = []
@@ -22,46 +21,60 @@ class Colonia():
             nivel_energia = 0
         
         bacteria = Bacteria(coordenadas, raza_elegida, nivel_energia, resistencia_elegida, item)
-        print(bacteria.obtener_datos())
         self.__lista_bacterias.append(bacteria)
 
     def paso(self, grilla):
-        print(f"bacterias: {len(self.__lista_bacterias)}")  
         bacterias_antiguas = self.__lista_bacterias
-        energia_mitosis = 50
+        energia_mitosis = 80
 
-        for bacteria in bacterias_antiguas:
-            # nuevos_estados = [1, 2, 3]
-            # nuevo_estado = random.choice(nuevos_estados)
-            # bacteria.set_estado(nuevo_estado) 
-            x,y  = bacteria.get_id()
-            energia_actual = bacteria.get_energia()
+        for bacteria in bacterias_antiguas: #[Bacteria, Bacteria, Bacteria]
+            x,y  = bacteria.get_id() #[Bacteria.id()]
+            contador = 0
 
-            if bacteria.get_estado() == 1:
-                print(f"bacteria en {x, y} es {bacteria.get_estado()}")
+            if bacteria.get_estado() == 2: 
+                grilla[x][y] = 2 
 
-            if bacteria.get_estado() == 2:
-                grilla[x][y] = 2
+            if bacteria.get_estado() == 3 or bacteria.get_estado() == 1: 
+                vecinos = [(x-1, y), (x+1, y), (x, y+1), (x, y-1)]
 
-            # print(f"coordenadas bacteria: {x, y}")     
-            # print(f"estado bacteria: {bacteria.get_estado()}") 
-            
-            vecinos = [(x-1, y), (x+1, y), (x, y+1), (x, y-1)]
-            for nx, ny in vecinos:
-                if 0 <= nx < len(grilla) and 0 <= ny < len(grilla[0]):
-                    if grilla[nx][ny] == 4:
-                        print(f"Bacteria detecta en {(x, y)} biofilm en {(nx, ny)}")
-                        bacteria.alimentar(15)
-                        print(f"energía actual bacteria: {bacteria.get_energia()}")
-                        if energia_actual >= energia_mitosis:
-                            bacteria.dividirse()
-            else:
-                energia_sin_comer = bacteria.set_energia(energia_actual - 10)
-                print(f"energía después de no consumir nutrientes {energia_sin_comer}")
-                if energia_actual == 0:
-                    nueva_bacteria_muerta= bacteria.set_estado(2)
-                    print(f"bacteria sin energía pasa a estar muerta {nueva_bacteria_muerta}")
+                for nx, ny in vecinos:
+                    if 0 <= nx < len(grilla) and 0 <= ny < len(grilla[0]): #si x es mayor a 0 o menos a longitud de la grilla
+                        if grilla[nx][ny] == 4: #si coordenadas concuerdan con 4
+                            print(f"Bacteria detecta en {(x, y)} biofilm en {(nx, ny)}")
+                            bacteria.alimentar(15)
+                            grilla[nx][ny] == 0 #Biofilm desaparece
+                        else: #si no concuerdan con 4
+                            contador += 1
+                            print(f"Bacteria en {x, y} no encuentra biofilm, por ende su energía es {bacteria.get_energia()}")
+                        
+                            if contador == 4:
+                                energia_actual = bacteria.set_energia(bacteria.get_energia() - 10) 
 
+            if bacteria.get_energia() < 50:
+                bacteria.morir()
+        
+            if bacteria.get_energia() >= energia_mitosis:
+                print(f"Bacteria en {x, y} tiene suficiente energía para dividirse")
+                random.shuffle(vecinos)  # Para que la hija no siempre vaya al mismo lugar
+                for nx, ny in vecinos:
+                    if 0 <= nx < len(grilla) and 0 <= ny < len(grilla[0]) and (grilla[nx][ny] == 0 or grilla[nx][ny] == 2): # si la coordenada está dentro de los límites de la grilla y es un espacio vacío o muerto
+                        nueva_bacteria = bacteria.dividirse()
+                        nueva_bacteria.set_id((nx, ny))
+                        self.__lista_bacterias.append(nueva_bacteria)
+                        grilla[nx][ny] = nueva_bacteria.get_estado()
+                        bacteria.set_energia(bacteria.get_energia() // 2)
+                        
+                        if not nueva_bacteria.get_estado() == 3:
+                            probabilidad_mutacion = 0.80
+                            if random.random() < probabilidad_mutacion:
+                                nueva_bacteria.mutar()
+                                print(f"Bacteria en {nueva_bacteria.get_id()} se volvió resistente {nueva_bacteria.get_estado()} ")
+                            else:
+                                print(f"Bacteria en {nueva_bacteria.get_id()} no cambió su estado")
+
+                        print(f"Bacteria en {x, y} crea una hija en {nx, ny}")
+                        break  # Solo una división por ciclo
+        
             grilla[x][y] = bacteria.get_estado() #Actualiza la grilla
         print("--------------------------Paso siguiente--------------------------")
         # print("Paso 1: 20 bacterias activas colonizan aleatoriamente la placa. Todas comienzan con energía = 50. No hay divisiones ni muertes.")
@@ -79,7 +92,7 @@ class Colonia():
         print(f"estado bacteria: {bacteria.get_estado()}")
 
         if grilla[x][y] != bacteria.get_estado():
-            print(f"¡Desincronización! En ({x},{y}) grilla={grilla[x][y]}, bacteria={bacteria.get_estado()}")
+            print(f"Desincronización en ({x},{y}) grilla={grilla[x][y]}, bacteria={bacteria.get_estado()}")
         # Implementamos logica para actualizar un paso en la colonia
         # donde cada bacteria tendrá un mo vimiento aleatorio y dependiendo de lo que 
         # encuentre, podrá morir, mutar o dividirse, comer biofilm.

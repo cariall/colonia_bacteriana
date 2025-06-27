@@ -1,3 +1,4 @@
+import random
 class Bacteria():
     def __init__(self, id, raza, energia, resistente, estado):
         self.__id = id
@@ -10,20 +11,24 @@ class Bacteria():
         self.__energia += cantidad
         return self.__energia
         
-    def dividirse(self):
-        pass
+    def dividirse(self): #es una copia de la bacteria original que alcanzó nivel de energía
+        return Bacteria(self.__id, self.__raza, self.__energia // 2, self.__resistente, self.__estado)
     
-    def mutar():
-        pass
+    def mutar(self):
+        self.__estado = 3
+        return self.__estado
 
-    def morir():
-        pass
+    def morir(self):
+        self.__estado = 2
+        self.__energia = 0
+        return self.__estado, self.__energia
     
     def get_id(self):
         return self.__id 
     
-    def get_raza(self):
-        return self.__raza
+    def set_id(self, nuevo_id):
+        self.__id = nuevo_id
+        return self.__id
     
     def get_energia(self):
         return self.__energia
