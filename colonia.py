@@ -26,6 +26,7 @@ class Colonia():
     def paso(self, grilla):
         bacterias_antiguas = self.__lista_bacterias
         energia_mitosis = 80
+        alimento = random.randint(15,25)
 
         for bacteria in bacterias_antiguas: #[Bacteria, Bacteria, Bacteria]
             x,y  = bacteria.get_id() #[Bacteria.id()]
@@ -40,13 +41,11 @@ class Colonia():
                 for nx, ny in vecinos:
                     if 0 <= nx < len(grilla) and 0 <= ny < len(grilla[0]): #si x es mayor a 0 o menos a longitud de la grilla
                         if grilla[nx][ny] == 4: #si coordenadas concuerdan con 4
-                            print(f"Bacteria detecta en {(x, y)} biofilm en {(nx, ny)}")
-                            bacteria.alimentar(15)
+                            bacteria.alimentar(alimento)
                             grilla[nx][ny] == 0 #Biofilm desaparece
                         else: #si no concuerdan con 4
                             contador += 1
-                            print(f"Bacteria en {x, y} no encuentra biofilm, por ende su energía es {bacteria.get_energia()}")
-                        
+
                             if contador == 4:
                                 energia_actual = bacteria.set_energia(bacteria.get_energia() - 10) 
 
@@ -71,7 +70,14 @@ class Colonia():
                                 print(f"Bacteria en {nueva_bacteria.get_id()} se volvió resistente {nueva_bacteria.get_estado()} ")
                             else:
                                 print(f"Bacteria en {nueva_bacteria.get_id()} no cambió su estado")
-
+                        else:
+                            probabilidad_heredar_resistencia = 0.5
+                            if random.random() > probabilidad_heredar_resistencia:
+                                nueva_bacteria.set_estado(3)
+                                print(f"Bacteria en {nueva_bacteria.get_id()} está {nueva_bacteria.get_estado()}")
+                            else: 
+                                print(f"Bacteria en {nueva_bacteria.get_id()} no heredó resistencia: {nueva_bacteria.get_estado()}")
+                                
                         print(f"Bacteria en {x, y} crea una hija en {nx, ny}")
                         break  # Solo una división por ciclo
         
