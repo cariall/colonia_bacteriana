@@ -65,7 +65,7 @@ class Colonia():
                         bacteria.set_energia(bacteria.get_energia() // 2)
                         
                         if not nueva_bacteria.get_estado() == 3:
-                            probabilidad_mutacion = 0.80
+                            probabilidad_mutacion = 0.30
                             if random.random() < probabilidad_mutacion:
                                 nueva_bacteria.mutar()
                                 print(f"Bacteria en {nueva_bacteria.get_id()} se volvió resistente {nueva_bacteria.get_estado()} ")
