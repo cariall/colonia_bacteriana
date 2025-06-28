@@ -2,6 +2,7 @@ import random
 import csv
 from bacteria import Bacteria
 from colonia import Colonia
+import matplotlib.pyplot as plt
 
 class Simulador():
     def __init__(self, grilla, cax, textos):
@@ -85,5 +86,20 @@ class Simulador():
         with open('data_bacterias.csv', 'w', newline='') as file:
             writer = csv.writer(file)
             writer.writerows(estados)
-                    
+
+    def graficar_crecimiento_resistencia(nombre_archivo, columna, nombre_y, titulo):
+        datos = []
+        with open(nombre_archivo, newline='') as csvfile:
+            reader = csv.reader(csvfile)
+            next(reader)  # Salta la cabecera
+            for row in reader:
+                datos.append(int(row[columna]))
+        fig, ax = plt.subplots() #Crea figura y ejes vs plt.figure que sólo crea la figura sin ejes.
+        fig.canvas.manager.set_window_title("Gráfico de evolución")  #Para título de ventana
+        plt.plot(datos, marker='o')
+        plt.xlabel('Paso')
+        plt.ylabel(nombre_y)
+        plt.title(titulo)
+        plt.show()
+                            
 

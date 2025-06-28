@@ -4,6 +4,7 @@ from matplotlib.patches import Patch
 import random
 from matplotlib.animation import FuncAnimation
 from simulador import Simulador
+from matplotlib.widgets import Button #para poder integrar botones
 
 ANCHO_GRILLA = 10
 ALTO_GRILLA = 10
@@ -22,7 +23,7 @@ def iniciar():
     # Crear un mapa de colores con 5 categorías (0 = vacío)
     cmap = plt.cm.get_cmap('Set1',5)
 
-    fig, ax = plt.subplots(figsize=(6, 6))
+    fig, ax = plt.subplots(figsize=(10, 12)) #porte de la ventana
     cax = ax.matshow(grilla, cmap=cmap)
 
     # Agrega leyenda personalizada
@@ -33,7 +34,34 @@ def iniciar():
         Patch(facecolor=cmap(4/5), label='Biofilm'),
     ]
 
-    ax.legend(handles=legend_elements, loc ='upper right', bbox_to_anchor=(1.45, 1) )
+    ax.legend(handles=legend_elements, loc ='upper right', bbox_to_anchor=(1.45, 1))
+
+    #---Agrego un botón---
+    plt.subplots_adjust(bottom=0.2)  # deja espacio para el botón
+    ax_boton = plt.axes([0.25, 0.05, 0.2, 0.075]) #posición horizontal, posición vertical, ancho y alto.
+    boton = Button(ax_boton, 'Graficar Resistencia')
+
+    def on_boton_clicked(event):
+        Simulador.graficar_crecimiento_resistencia(
+            'data_bacterias.csv',
+            columna=1,
+            nombre_y='Bacterias resistentes',
+            titulo='Evolución de bacterias resistentes'
+        )
+    boton.on_clicked(on_boton_clicked)
+
+    #---Agrego botón de crecimiento---
+    ax_boton_crec = plt.axes([0.55, 0.05, 0.2, 0.075]) #posición
+    boton_crec = Button(ax_boton_crec, 'Graficar Crecimiento')
+
+    def on_boton_crec_clicked(event):
+        Simulador.graficar_crecimiento_resistencia(
+            'data_bacterias.csv',
+            columna=0,
+            nombre_y='Bacterias vivas',
+            titulo='Crecimiento de bacterias vivas'
+        )
+    boton_crec.on_clicked(on_boton_crec_clicked)
 
     # Configuración de la grilla
     ax.set_xticks(np.arange(0, 10, 1))
@@ -52,8 +80,8 @@ def iniciar():
         textos.append(fila)
 
     sim = Simulador(grilla, cax, textos)
-    plt.title("Grilla bacteriana (10 x10)")
-    plt.tight_layout()
+    fig.suptitle("Grilla bacteriana (10 x10)", fontsize=16)
+    plt.tight_layout(rect=[0, 0, 1, 0.96])  # deja espacio arriba para el título
     sim.inicializar_bacterias()
     anim = FuncAnimation(fig, sim.run, blit=False, interval=2000, save_count=100, frames=1, repeat=False)
     plt.show()
