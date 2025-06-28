@@ -1,9 +1,11 @@
 import random
 from bacteria import Bacteria
+import csv
+# from ambiente import Ambiente
 class Colonia():
     def __init__(self):
         self.__lista_bacterias = []
-        #self.__ambiente = Ambiente()
+        # self.__ambiente = Ambiente()
         self.__biofilm = []
 
     def agregar_bacteria(self, coordenadas, item):
@@ -19,9 +21,10 @@ class Colonia():
             
         if item == 2:
             nivel_energia = 0
-        
+
         bacteria = Bacteria(coordenadas, raza_elegida, nivel_energia, resistencia_elegida, item)
         self.__lista_bacterias.append(bacteria)
+
 
     def paso(self, grilla):
         bacterias_antiguas = self.__lista_bacterias
@@ -104,8 +107,49 @@ class Colonia():
         # encuentre, podrá morir, mutar o dividirse, comer biofilm.
         return bacterias_antiguas
         
-    def reporte_estado():
-        pass
+    def reporte_estado(self, grilla):
+        bacterias_vivas = 0
+        bacterias_resistentes = 0
+        bacterias_muertas = 0
+        biofilm = 0
+        for i in range(len(grilla)):
+            for j in range(len(grilla[i])):
+                if grilla[i][j] == 1:
+                    bacterias_vivas += 1
+                elif grilla[i][j] == 2:
+                    bacterias_muertas += 1
+                elif grilla[i][j] == 3:
+                    bacterias_resistentes += 1
+                elif grilla[i][j] == 4:
+                    biofilm += 1
+        return {
+            "Bacterias vivas": bacterias_vivas,
+            "bacterias resistentes": bacterias_resistentes,
+            "bacterias muertas": bacterias_muertas,
+            "biofilm": biofilm
+        }
 
-    def exportar_csv():
-        pass
+    def exportar_csv(self, estados_grilla):
+        estados = [["bacterias vivas", "bacterias resistentes", "bacterias muertas", "biofilm"]]
+        for grilla in estados_grilla:
+            bacterias_muertas = 0
+            bacterias_resistentes = 0
+            bacterias_vivas = 0
+            biofilm = 0
+            for i in range(len(grilla)):
+                for j in range(len(grilla[i])):
+                    if grilla[i][j]== 1:
+                        bacterias_vivas += 1
+                    elif grilla[i][j] == 2:
+                        bacterias_muertas += 1
+                    elif grilla[i][j] == 3:
+                        bacterias_resistentes += 1
+                    elif grilla[i][j] == 4:
+                        biofilm += 1
+            estados.append([bacterias_vivas, bacterias_resistentes, bacterias_muertas, biofilm])
+            estado = self.reporte_estado(grilla)
+            print(estado)
+
+        with open('data_bacterias.csv', 'w', newline='') as file:
+            writer = csv.writer(file)
+            writer.writerows(estados)
