@@ -29,7 +29,7 @@ class Simulador():
                     self.__textos[i][j].set_text(str(item) if item > 0 else '')
                     self.__colonia.agregar_bacteria((i, j), item) #agrega a lista de bacterias
 
-                print(f"en {i, j} hay número {item}")
+                # print(f"en {i, j} hay número {item}")
         self.__colonia.exportar_csv(self.__estados_grilla)
         self.__estados_grilla.append(self.__grilla.copy()) 
         self.__cax.set_data(self.__grilla)
@@ -60,6 +60,10 @@ class Simulador():
                 self.__grilla[x][y] = 2
                 self.__textos[x][y].set_text('2')
                 
+        print("Grilla actual")
+        for fila in self.__grilla:
+            print(fila) 
+            
         self.__grilla = self.__colonia.modificar_ambiente(self.__grilla) 
         for i in range(len(self.__grilla)):
             for j in range(len(self.__grilla[0])):

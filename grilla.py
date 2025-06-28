@@ -10,7 +10,7 @@ ANCHO_GRILLA = 10
 ALTO_GRILLA = 10
 # Crear una grilla 10 x10
 grilla = np.zeros((ANCHO_GRILLA, ALTO_GRILLA))
-interactores = [0, 0, 0, 0, 1, 0, 4, 0, 0, 3]
+interactores = [0, 0, 0, 0, 1, 0, 4, 0, 5, 3]
 # Definimos posiciones de bacterias activas (1) , muertas (2) , resistentes
 # (3) , biofilm (4)
 
@@ -21,17 +21,18 @@ def iniciar():
             if item != 0:
                 grilla[i, j] = item 
     # Crear un mapa de colores con 5 categorías (0 = vacío)
-    cmap = plt.cm.get_cmap('Set1',5)
+    cmap = plt.cm.get_cmap('Set1',6)
 
     fig, ax = plt.subplots(figsize=(10, 12)) #porte de la ventana
     cax = ax.matshow(grilla, cmap=cmap)
 
     # Agrega leyenda personalizada
     legend_elements = [
-        Patch(facecolor=cmap(1/5), label='Bacteria activa'),
-        Patch(facecolor=cmap(2/5), label='Bacteria muerta'),
-        Patch(facecolor=cmap(3/5), label='Bacteria resistente'),
-        Patch(facecolor=cmap(4/5), label='Biofilm'),
+        Patch(facecolor=cmap(1/6), label='Bacteria activa'),
+        Patch(facecolor=cmap(2/6), label='Bacteria muerta'),
+        Patch(facecolor=cmap(3/6), label='Bacteria resistente'),
+        Patch(facecolor=cmap(4/6), label='Biofilm'),
+        Patch(facecolor=cmap(5/6), label='Antibiótico'),
     ]
 
     ax.legend(handles=legend_elements, loc ='upper right', bbox_to_anchor=(1.45, 1))

@@ -5,7 +5,7 @@ from ambiente import Ambiente
 class Colonia():
     def __init__(self):
         self.__lista_bacterias = []
-        self.__ambiente = Ambiente()
+        self.__ambiente = Ambiente(10, 10)
         self.__biofilm = []
 
     def agregar_bacteria(self, coordenadas, item):
@@ -48,6 +48,7 @@ class Colonia():
                     if 0 <= nx < len(grilla) and 0 <= ny < len(grilla[0]): #si x es mayor a 0 o menos a longitud de la grilla
                         if grilla[nx][ny] == 4: #si coordenadas concuerdan con 4
                             bacteria.alimentar(alimento)
+                            self.__ambiente.consumir_nutriente(nx, ny, alimento)
                             grilla[nx][ny] == 0 #Biofilm desaparece
                         else: #si no concuerdan con 4
                             contador += 1
@@ -96,15 +97,6 @@ class Colonia():
         # print("Paso 5: 6 muertes por inanición. La zona central es dominada por bacterias resistentes.")
         print("------------------------------------------------------------------")
 
-        print("Grilla actual")
-        for fila in grilla:
-            print(fila) 
-
-        if grilla[x][y] != bacteria.get_estado():
-            print(f"Desincronización en ({x},{y}) grilla={grilla[x][y]}, bacteria={bacteria.get_estado()}")
-        # Implementamos logica para actualizar un paso en la colonia
-        # donde cada bacteria tendrá un mo vimiento aleatorio y dependiendo de lo que 
-        # encuentre, podrá morir, mutar o dividirse, comer biofilm.
         return bacterias_antiguas
         
     def reporte_estado(self, grilla):
