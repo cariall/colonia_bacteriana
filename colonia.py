@@ -1,11 +1,11 @@
 import random
 from bacteria import Bacteria
 import csv
-# from ambiente import Ambiente
+from ambiente import Ambiente
 class Colonia():
     def __init__(self):
         self.__lista_bacterias = []
-        # self.__ambiente = Ambiente()
+        self.__ambiente = Ambiente()
         self.__biofilm = []
 
     def agregar_bacteria(self, coordenadas, item):
@@ -25,6 +25,9 @@ class Colonia():
         bacteria = Bacteria(coordenadas, raza_elegida, nivel_energia, resistencia_elegida, item)
         self.__lista_bacterias.append(bacteria)
 
+    def modificar_ambiente(self, grilla):
+        grilla = self.__ambiente.aplicar_ambiente(grilla)
+        return grilla
 
     def paso(self, grilla):
         bacterias_antiguas = self.__lista_bacterias
@@ -95,10 +98,7 @@ class Colonia():
 
         print("Grilla actual")
         for fila in grilla:
-            print(fila)
-
-        print(f"coordenadas bacteria: {x, y}")     
-        print(f"estado bacteria: {bacteria.get_estado()}")
+            print(fila) 
 
         if grilla[x][y] != bacteria.get_estado():
             print(f"Desincronización en ({x},{y}) grilla={grilla[x][y]}, bacteria={bacteria.get_estado()}")

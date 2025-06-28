@@ -60,6 +60,11 @@ class Simulador():
                 self.__grilla[x][y] = 2
                 self.__textos[x][y].set_text('2')
                 
+        self.__grilla = self.__colonia.modificar_ambiente(self.__grilla) 
+        for i in range(len(self.__grilla)):
+            for j in range(len(self.__grilla[0])):
+                val = self.__grilla[i][j]
+                self.__textos[i][j].set_text(str(int(val)) if val > 0 else '')
         self.__colonia.exportar_csv(self.__estados_grilla)
         self.__estados_grilla.append(self.__grilla.copy()) 
         self.__cax.set_data(self.__grilla.copy())
