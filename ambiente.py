@@ -49,11 +49,11 @@ class Ambiente:
                     # Revisa las 4 celdas vecinas
                     vecinos = [(-1,0), (1,0), (0,-1), (0,1)]
                     for dx, dy in vecinos:
-                        ni, nj = i + dx, j + dy
+                        ni, nj = i + dx, j + dy 
                         if 0 <= ni < ancho and 0 <= nj < alto:
                             # Si hay bacteria activa (1) o resistente (3), la mata (2)
-                            if grilla[ni][nj] == 1 or grilla[ni][nj] == 3:
-                                print(f"se encontró antibiótico en {i, j}")
+                            if grilla[ni][nj] == 1:
+                                print(f"Antibiótico en {i, j} mató a la bacteria en {ni, nj}")
                                 grilla[ni][nj] = 2
         return grilla
 

@@ -84,5 +84,6 @@ def iniciar():
     fig.suptitle("Grilla bacteriana (10 x10)", fontsize=16)
     plt.tight_layout(rect=[0, 0, 1, 0.96])  # deja espacio arriba para el título
     sim.inicializar_bacterias()
-    anim = FuncAnimation(fig, sim.run, blit=False, interval=2000, save_count=100, frames=1, repeat=False)
+ 
+    anim = FuncAnimation(fig, sim.run, blit=False, interval=3000, save_count=4, frames=4, repeat=False)
     plt.show()

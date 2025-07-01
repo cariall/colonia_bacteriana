@@ -11,14 +11,15 @@ class Bacteria():
         self.__energia += cantidad
         return self.__energia
         
-    def dividirse(self): #es una copia de la bacteria original que alcanzó nivel de energía
-        return Bacteria(self.__id, self.__raza, self.__energia // 2, self.__resistente, self.__estado)
+    def dividirse(self, id): #es una copia de la bacteria original que alcanzó nivel de energía
+        return Bacteria(id, self.__raza, self.__energia // 2, self.__resistente, estado=1)
     
     def mutar(self):
         self.__estado = 3
         return self.__estado
 
     def morir(self):
+        print(f"Bacteria {self.__id} ha muerto por energía insuficiente")
         self.__estado = 2
         self.__energia = 0
         return self.__estado, self.__energia
