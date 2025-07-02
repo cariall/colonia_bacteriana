@@ -85,5 +85,5 @@ def iniciar():
     plt.tight_layout(rect=[0, 0, 1, 0.96])  # deja espacio arriba para el título
     sim.inicializar_bacterias()
  
-    anim = FuncAnimation(fig, sim.run, blit=False, interval=3000, save_count=4, frames=4, repeat=False)
+    anim = FuncAnimation(fig, sim.run, blit=False, interval=3000, save_count=4, frames=3, repeat=False)
     plt.show()

@@ -1,5 +1,4 @@
 import grilla
-from simulador import Simulador
 
 def iniciar():
     grilla.iniciar()

@@ -10,17 +10,20 @@ class Simulador():
         self.__estados_grilla = [grilla]
         self.__cax = cax
         self.__textos = textos
-
         self.__colonia= Colonia()
 
     def inicializar_bacterias(self):
-        interactores = [0, 0, 4, 1, 0, 0, 0, 0, 0, 3]
+        interactores = [0, 0, 4, 1, 0, 0, 0, 5, 0, 3]
         
         for i in range(len(self.__grilla)):
             for j in range(len(self.__grilla[i])):
                 item = random.choice(interactores) 
                 
                 if item == 4:
+                    self.__grilla[i][j] = item
+                    self.__textos[i][j].set_text(str(item) if item == 4 else '')
+
+                if item == 5:
                     self.__grilla[i][j] = item
                     self.__textos[i][j].set_text(str(item) if item == 4 else '')
 
@@ -32,8 +35,8 @@ class Simulador():
                 # print(f"en {i, j} hay número {item}")
         self.__colonia.exportar_csv(self.__estados_grilla)
         self.__estados_grilla.append(self.__grilla.copy()) 
-        self.__cax.set_data(self.__grilla)
-        return [self.__cax] + [t for fila in self.__textos for t in fila]
+        self.__cax.set_data(self.__grilla) #actualiza visualización grilla
+        return [self.__cax] + [t for fila in self.__textos for t in fila] #lo que debe actualizar la grilla. color y texto
 
     def run(self, frame):
         # en paso pediremos el estados de la colonia para poder actualizar la grilla

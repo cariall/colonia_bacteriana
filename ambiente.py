@@ -3,14 +3,14 @@ import numpy as np
 
 class Ambiente:
     def __init__(self, ancho, alto, nutrientes_inicial=100, factor_inicial = 0):
-        self.__nutrientes = np.full((ancho, alto), nutrientes_inicial, dtype=int)
-        self.__factor_ambiental = np.full((ancho, alto), factor_inicial, dtype=int)
+        self.__nutrientes = np.full((ancho, alto), nutrientes_inicial, dtype=int) #crea matriz de nutrientes
+        self.__factor_ambiental = np.full((ancho, alto), factor_inicial, dtype=int) #crea matriz de factor ambiental
     
     def difundir_nutrientes(self, tasa=0.1):
-        nutrientes_nueva = self.__nutrientes.copy()
+        nutrientes_nueva = self.__nutrientes
         for i in range(1, self.__nutrientes.shape[0] - 1):
             for j in range(1, self.__nutrientes.shape[1] - 1): #reemplaza len(self.nutrientes)
-                vecinos = self.__nutrientes[i-1:i+2, j-1:j+2]
+                vecinos = self.__nutrientes[i-1:i+2, j-1:j+2]  #inicio:fin
                 nutrientes_nueva[i, j] += tasa * (vecinos.mean() - self.__nutrientes[i, j]) #mean calcula el promedio de los nutrientes
         self.__nutrientes = nutrientes_nueva
         
@@ -51,7 +51,7 @@ class Ambiente:
                     for dx, dy in vecinos:
                         ni, nj = i + dx, j + dy 
                         if 0 <= ni < ancho and 0 <= nj < alto:
-                            # Si hay bacteria activa (1) o resistente (3), la mata (2)
+                            # Si hay bacteria activa (1), la mata (2)
                             if grilla[ni][nj] == 1:
                                 print(f"Antibiótico en {i, j} mató a la bacteria en {ni, nj}")
                                 grilla[ni][nj] = 2

@@ -6,7 +6,6 @@ class Colonia():
     def __init__(self):
         self.__lista_bacterias = []
         self.__ambiente = Ambiente(10, 10)
-        self.__biofilm = []
 
     def agregar_bacteria(self, coordenadas, item):
         resistencia = 3 #porque el número 3 significa resistente
